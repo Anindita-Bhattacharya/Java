@@ -1,0 +1,103 @@
+import java.util.LinkedList;
+import java.util.Scanner;
+
+class Product {
+    int productId;
+    String name;
+    String description;
+    double price;
+    String category;
+
+    public Product(int productId, String name, String description, double price, String category) {
+        this.productId = productId;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.category = category;
+    }
+
+    @Override
+    public String toString() {
+        return "Product{" +
+                "ID=" + productId +
+                ", Name='" + name + '\'' +
+                ", Description='" + description + '\'' +
+                ", Price=" + price +
+                ", Category='" + category + '\'' +
+                '}';
+    }
+}
+
+class HashTable {
+    private static final int SIZE = 10;
+    private LinkedList<Product>[] table;
+
+    public HashTable() {
+        table = new LinkedList[SIZE];
+        for (int i = 0; i < SIZE; i++) {
+            table[i] = new LinkedList<>();
+        }
+    }
+
+    private int hashFunction(int productId) {
+        return productId % SIZE;
+    }
+
+    public void insert(Product product) {
+        int index = hashFunction(product.productId);
+        table[index].add(product);
+    }
+
+    public Product retrieve(int productId) {
+        int index = hashFunction(productId);
+        for (Product product : table[index]) {
+            if (product.productId == productId) {
+                return product;
+            }
+        }
+        return null;
+    }
+
+    public boolean delete(int productId) {
+        int index = hashFunction(productId);
+        for (Product product : table[index]) {
+            if (product.productId == productId) {
+                table[index].remove(product);
+                return true;
+            }
+        }
+        return false;
+    }
+}
+
+ class ProductManagementSystem {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        HashTable hashTable = new HashTable();
+
+        int n = scanner.nextInt();
+        scanner.nextLine();
+
+        for (int i = 0; i < n; i++) {
+            int productId = scanner.nextInt();
+            scanner.nextLine();
+            String name = scanner.nextLine();
+            String description = scanner.nextLine();
+            double price = scanner.nextDouble();
+            scanner.nextLine();
+            String category = scanner.nextLine();
+            
+            Product product = new Product(productId, name, description, price, category);
+            hashTable.insert(product);
+        }
+
+        int retrieveId = scanner.nextInt();
+        System.out.println("Retrieved Product: " + hashTable.retrieve(retrieveId));
+
+        int deleteId = scanner.nextInt();
+        System.out.println("Deletion status: " + hashTable.delete(deleteId));
+        System.out.println("Retrieving Product with ID " + deleteId + " after deletion: " + hashTable.retrieve(deleteId));
+
+        scanner.close();
+    }
+}
