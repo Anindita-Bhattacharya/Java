@@ -1,0 +1,66 @@
+import java.util.*;
+
+ class OnlineShopDiscountSystem {
+
+    // Method to find the sum of unique values in the maximum subarray sum using Hashtable
+    public static int maxSubarraySumWithUniqueValues(int[] sales) {
+        int n = sales.length;
+        
+        // Variables to track the maximum sum and the current subarray sum
+        int maxSum = Integer.MIN_VALUE;  // To store maximum subarray sum
+        int currentSum = 0;  // To store the sum of the current subarray
+        int start = 0;  // To track the starting index of the subarray
+        int end = 0;  // To track the ending index of the subarray
+        int tempStart = 0;  // Temporary start index for Kadane's algorithm
+
+        // Loop through the array to find the maximum subarray sum (Kadane's Algorithm)
+        for (int i = 0; i < n; i++) {
+            currentSum += sales[i];
+
+            if (currentSum > maxSum) {
+                maxSum = currentSum;
+                start = tempStart;
+                end = i;
+            }
+
+            if (currentSum < 0) {
+                currentSum = 0;
+                tempStart = i + 1;
+            }
+        }
+
+        // Now, find the sum of unique values in the subarray that gave the maximum sum
+        Hashtable<Integer, Boolean> uniqueValues = new Hashtable<>();  // To store unique values in the subarray
+        for (int i = start; i <= end; i++) {
+            uniqueValues.put(sales[i], true);  // Mark the value as present in the subarray
+        }
+
+        // Calculate the sum of unique values
+        int sumOfUniqueValues = 0;
+        for (Integer value : uniqueValues.keySet()) {
+            sumOfUniqueValues += value;
+        }
+
+        return sumOfUniqueValues;
+    }
+
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        // Taking the input from the user
+        int n = scanner.nextInt();
+        
+        int[] sales = new int[n];
+        for (int i = 0; i < n; i++) {
+            sales[i] = scanner.nextInt();
+        }
+
+        // Call the method to find the sum of unique values in the max subarray
+        int result = maxSubarraySumWithUniqueValues(sales);
+
+        // Output the result
+        System.out.println("Sum of unique values in the maximum subarray: " + result);
+        
+        scanner.close();
+    }
+}
