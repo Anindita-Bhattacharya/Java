@@ -1,0 +1,67 @@
+import java.util.Scanner;
+
+public class FlowerArrangement {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        
+        // Input the number of flowers in the first half of the arrangement
+        System.out.print("Enter the number of flowers in the first half: ");
+        int n = scanner.nextInt();
+        
+        // Upper half of the arrangement
+        for (int i = 0; i < n; i++) {
+            // Print left side flowers
+            for (int j = 0; j < n - i; j++) {
+                System.out.print("* ");
+            }
+            // Print spaces in the middle
+            for (int j = 0; j < 2 * i; j++) {
+                System.out.print("  ");
+            }
+            // Print right side flowers
+            for (int j = 0; j < n - i; j++) {
+                System.out.print("* ");
+            }
+            // Move to the next line
+            System.out.println();
+        }
+        
+        // Lower half of the arrangement
+        for (int i = 0; i < n; i++) {
+            // Print left side flowers
+            for (int j = 0; j < n; j++) {
+                System.out.print("* ");
+            }
+            // Print spaces in the middle
+            for (int j = 0; j < 2 * n; j++) {
+                System.out.print("  ");
+            }
+            // Print right side flowers
+            for (int j = 0; j < n; j++) {
+                System.out.print("* ");
+            }
+            // Move to the next line
+            System.out.println();
+        }
+        
+        // Lower half of the arrangement (mirroring the upper half)
+        for (int i = n - 1; i >= 0; i--) {
+            // Print left side flowers
+            for (int j = 0; j < n - i; j++) {
+                System.out.print("* ");
+            }
+            // Print spaces in the middle
+            for (int j = 0; j < 2 * i; j++) {
+                System.out.print("  ");
+            }
+            // Print right side flowers
+            for (int j = 0; j < n - i; j++) {
+                System.out.print("* ");
+            }
+            // Move to the next line
+            System.out.println();
+        }
+        
+        scanner.close();
+    }
+}
